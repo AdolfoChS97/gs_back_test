@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: test_gs
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    ports:
+      - "5432:5432"
+
+  web:
+    build: 
+      context: .
+      dockerfile: .docker/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DATABASE_NAME=test_gs
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=1234
+      - DATABASE_HOST=0.0.0.0
+      - DATABASE_PORT=5432
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

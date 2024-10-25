@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-z$f7v9=axau(^)i(ir7y7#((59x04^@yc$zw@8q9sg7)4jet2(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+]
 
 
 # Application definition
@@ -78,8 +80,12 @@ WSGI_APPLICATION = 'gs_back_test.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'test_gs',
+            'USER': 'postgres',
+            'PASSWORD': '1234',
+            'HOST': 'db',  # Cambia si tu BD está en otro servidor
+            'PORT': '5432', 
     }
 }
 
